@@ -5,17 +5,20 @@ DECLARE @fileName VARCHAR(256) -- Arquivo do backup
  
 -- Define caminho de destino do backup
 set @now= format(getdate(),'yyyy-MM-dd-HHmm')
-SET @path = 'L:\BACKUP\INDICES\DATABASES\'  
+SET @path = 'caminho do seu backup'  
  
 -- Cria um cursor para selecionar todas as databases,  
 --  excluindo model, msdb e tempdb
 DECLARE db_cursor CURSOR FOR  
    SELECT name 
      FROM master.dbo.sysdatabases 
-    
-	--WHERE name NOT IN ('master','model','msdb','tempdb')  
-	 WHERE name IN ('ALVARAS','Bebidas','BuscapeDW','Infraero','nIPOP','SIPOP','SPTUR_20190323', 'SUS')  
+
+	-- selecionar a condição que mais atende a sua necessidade
+	
+	-- WHERE name NOT IN ('master','model','msdb','tempdb')  
+	-- WHERE name IN ('ALVARAS','Bebidas','BuscapeDW','Infraero','nIPOP','SIPOP','SPTUR_20190323', 'SUS')  
 	-- WHERE name IN ('SUS')  
+	
 -- Abre o cursor e faz a primeira leitura 
 OPEN db_cursor   
 FETCH NEXT FROM db_cursor INTO @name   
@@ -25,7 +28,7 @@ WHILE @@FETCH_STATUS = 0
 BEGIN   
    SET @fileName = @path + @name + '_' + @now + '.BAK'  
    -- Executa o backup para o database
-   BACKUP DATABASE @name TO DISK = @fileName WITH COMPRESSION;  
+   BACKUP DATABASE @name TO DISK = @fileName WITH COPY_ONLY, COMPRESSION;  
  
    FETCH NEXT FROM db_cursor INTO @name   
 END   

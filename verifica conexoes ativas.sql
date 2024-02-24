@@ -1,3 +1,5 @@
+-- Ajuda a identificar o numero de conexoes por banco
+
 select distinct login_name, 
 (select count(*) from sys.dm_exec_sessions a
 where a.status = 'sleeping'

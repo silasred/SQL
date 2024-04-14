@@ -1,4 +1,4 @@
-USE [pbi_Salariometro]   
+USE [nome_do_banco]   
 GRANT EXECUTE
-TO pbi_salariometro;  
+TO nome_do_user;  
 GO  
